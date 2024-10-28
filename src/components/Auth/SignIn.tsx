@@ -5,8 +5,9 @@ import { useForm } from 'react-hook-form'
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signIn, setEmail, setPassword } from "../../store/reducers/auth.reducer";
+import { signIn, setEmail, setPassword, setSignInError } from "../../store/reducers/auth.reducer";
 import { FormField } from "../Form/FormField";
+import { Alert } from "@mui/material";
 
 const FormSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -21,14 +22,17 @@ interface Form {
 export const SignIn = () => {
     const dispatch = useDispatch<AppDispatch>()
     const {email, password} = useSelector((state: RootState) => state.auth)
+    const signInThunk = useSelector((state: RootState) => state.auth.signIn)
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<Form>({
         resolver: yupResolver(FormSchema),
         defaultValues: {email, password}
     });
 
+
     const formOnSubmit = (data: Form) => {
-        console.log(data)
+        dispatch(setSignInError(null))
+        dispatch(signIn(data))
     }
 
     return (
@@ -66,6 +70,21 @@ export const SignIn = () => {
                         className='btn btn-primary col-6 mt-4' 
                         value="Войти" 
                     />
+
+                    {
+                        signInThunk.error && (
+                            <Alert 
+                                className="mt-3"
+                                variant="outlined" 
+                                severity="error" 
+                                onClose={() => {
+                                    dispatch(setSignInError(null))
+                                }}
+                            >
+                                {signInThunk.error}
+                            </Alert>
+                        )
+                    }
                 </div>
             </form>
         </div>
