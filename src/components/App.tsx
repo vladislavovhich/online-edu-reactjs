@@ -1,8 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux"
 import { Outlet } from "react-router"
+import { authMe } from "../store/reducers/auth.reducer"
+import { AppDispatch } from "../store/store"
 import { Header } from "./Header"
 
 export const App = () => {
+    const dispatch = useDispatch<AppDispatch>()
+
+    useEffect(() => {
+        dispatch(authMe())
+    }, [])
+
     return (
         <div>
             <Header />

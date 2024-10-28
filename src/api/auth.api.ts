@@ -1,44 +1,61 @@
+import { AxiosError } from "axios";
 import { SignIn, SignUp, User } from "../types/auth.types";
 import { Api } from "./api";
 
 export const AuthApi = {
     signUp: async (data: SignUp) => {
-        const response = await Api.post("/auth/sign-up", JSON.stringify(data))
-    
-        if (response.status == 200) {
-            const user = response.data.user as User
+        try {
+            const response = await Api.post<{user: User}>("/auth/sign-up", JSON.stringify(data))
 
-            return user
-        } else {
-            throw new Error(response.data)
+            return response.data.user
+        }
+        catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data)
+            }
+
+            throw e
         }
     },
 
     signIn: async (data: SignIn) => {
-        const response = await Api.post("/auth/sign-in", JSON.stringify(data))
+        try {
+            const response = await Api.post<{user: User}>("/auth/sign-in", JSON.stringify(data))
 
-        if (response.status == 200) {
-            const user = response.data.user as User
+            return response.data.user
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data)
+            }
 
-            return user
-        } else {
-            throw new Error(response.data)
+            throw e
         }
     },
 
     signOut: async () => {
-        const response = await Api.post("/auth/sign-out")
+        try {
+            await Api.post("/auth/sign-out")
+        }
+        catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data)
+            }
+
+            throw e
+        }
     },
 
     authMe: async () => {
-        const response = await Api.get("/auth/me")
-        
-        if (response.status == 200) {
-            const user = response.data.user as User
+        try {
+            const response = await Api.get<{user: User}>("/auth/me")
+            
+            return response.data.user
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data)
+            }
 
-            return user
-        } else {
-            throw new Error(response.data)
+            throw e
         }
     },
 }

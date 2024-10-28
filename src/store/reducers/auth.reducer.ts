@@ -87,8 +87,12 @@ export const authSlice = createSlice({
         },
 
         setRole(state, action: PayloadAction<string>) {
-          state.role = action.payload
-      }
+            state.role = action.payload
+        },
+
+        setSignInError(state, action: PayloadAction<string | null>) {
+            state.signIn.error = action.payload
+        }
     },
 
     extraReducers: builder => {
@@ -142,4 +146,7 @@ export const authSlice = createSlice({
     }
 })
 
-export const {setEmail, setPassword, setName, setSurname, setRole} = authSlice.actions
+export const {
+  setEmail, setPassword, setName, 
+  setSurname, setRole, setSignInError
+} = authSlice.actions

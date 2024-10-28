@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { signUp, setEmail, setPassword, setName, setSurname, setRole } from "../../store/reducers/auth.reducer";
 import { FormField } from "../Form/FormField";
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Alert } from "@mui/material";
 
 const FormSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -26,6 +26,7 @@ interface Form {
 export const SignUp = () => {
     const dispatch = useDispatch<AppDispatch>()
     const {email, password, name, surname, role} = useSelector((state: RootState) => state.auth)
+    const signUpThunk = useSelector((state: RootState) => state.auth.signUp)
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<Form>({
         resolver: yupResolver(FormSchema),
@@ -119,6 +120,14 @@ export const SignUp = () => {
                         className='btn btn-primary col-6 mt-3' 
                         value="Зарегестрироваться" 
                     />
+
+                    {
+                        signUpThunk.error && (
+                            <Alert variant="outlined" severity="error">
+                                {signUpThunk.error}
+                            </Alert>
+                        )
+                    }
                 </div>
             </form>
         </div>

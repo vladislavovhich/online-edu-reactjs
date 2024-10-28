@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import store from "./store/store"
 import { SignIn } from './components/Auth/SignIn';
 import { SignUp } from './components/Auth/SignUp';
+import ProtectedRoute from './components/common/AuthorizedRedirectTo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,11 +22,23 @@ export const router = createBrowserRouter([
       children: [
         {
           path: "/auth/sign-in",
-          element: <SignIn />
+          element: (
+            <ProtectedRoute redirectTo="/home">
+              <SignIn />
+            </ProtectedRoute>
+          )
         },
         {
           path: "/auth/sign-up",
-          element: <SignUp />
+          element: (
+            <ProtectedRoute redirectTo="/home">
+              <SignUp />
+            </ProtectedRoute>
+          )
+        },
+        {
+          path: "/home",
+          element: <p>sdfsdfsd</p>
         }
       ]
     }
