@@ -9,7 +9,9 @@ import { Provider } from 'react-redux';
 import store from "./store/store"
 import { SignIn } from './components/Auth/SignIn';
 import { SignUp } from './components/Auth/SignUp';
-import ProtectedRoute from './components/common/AuthorizedRedirectTo';
+import { AuthorizedRedirectTo } from './components/common/AuthorizedRedirectTo';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { Profile } from './components/User/Profile';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,24 +23,36 @@ export const router = createBrowserRouter([
       element: <App />,
       children: [
         {
+          path: "/",
+          element: (
+            <AuthorizedRedirectTo redirectTo="/profile">
+              <span />
+            </AuthorizedRedirectTo>
+          )
+        },
+        {
           path: "/auth/sign-in",
           element: (
-            <ProtectedRoute redirectTo="/home">
+            <AuthorizedRedirectTo redirectTo="/profile">
               <SignIn />
-            </ProtectedRoute>
+            </AuthorizedRedirectTo>
           )
         },
         {
           path: "/auth/sign-up",
           element: (
-            <ProtectedRoute redirectTo="/home">
+            <AuthorizedRedirectTo redirectTo="/profile">
               <SignUp />
-            </ProtectedRoute>
+            </AuthorizedRedirectTo>
           )
         },
         {
-          path: "/home",
-          element: <p>sdfsdfsd</p>
+          path: "/profile",
+          element: (
+            <ProtectedRoute redirectTo='/auth/sign-in'>
+              <Profile />
+            </ProtectedRoute>
+          )
         }
       ]
     }

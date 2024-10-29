@@ -44,17 +44,19 @@ export const FormField = <T extends Record<string, any>,>(props: Props<T>) => {
                     {...register}
                     onChange={handleInputChange}
                     className={extraClass}
-                    variant="standard"
+                    variant="outlined"
+                    size='small'
                 />
             ) : (   
                 <TextField 
                     type={type}
                     label={props.labelText} 
-                    variant="standard" 
+                    variant="outlined" 
                     value={value}
                     className={extraClass}
                     {...register}
                     onChange={handleInputChange}
+                    size='small'
                 />
             )}
         </>

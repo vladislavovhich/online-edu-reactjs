@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { signIn, setEmail, setPassword, setSignInError } from "../../store/reducers/auth.reducer";
 import { FormField } from "../Form/FormField";
 import { Alert } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const FormSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -38,7 +39,9 @@ export const SignIn = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(formOnSubmit)}>
-                <div className="row d-flex flex-column">
+                <div className="row d-flex flex-column align-items-center">
+                    <h3 className="text-center text-primary col-6">Авторизация</h3>
+
                     <FormField 
                         type='text'
                         register={register("email")}
@@ -49,7 +52,7 @@ export const SignIn = () => {
                         action={setEmail}
                         labelText='Почта'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='mt-3 col-6'
                     />
 
                     <FormField 
@@ -62,20 +65,22 @@ export const SignIn = () => {
                         action={setPassword}
                         labelText='Пароль'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='mt-3 col-6'
                     />
 
+                    <Link to="/auth/sign-up" className="text-center text-primary my-1">Нет аккаунта?</Link>
+                    
                     <input 
                         type='submit' 
-                        className='btn btn-primary col-6 mt-4' 
+                        className='btn btn-primary col-6 mt-2' 
                         value="Войти" 
                     />
 
                     {
                         signInThunk.error && (
                             <Alert 
-                                className="mt-3"
-                                variant="outlined" 
+                                className="mt-3 col-6"
+                                variant="filled" 
                                 severity="error" 
                                 onClose={() => {
                                     dispatch(setSignInError(null))

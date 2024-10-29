@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signUp, setEmail, setPassword, setName, setSurname, setRole } from "../../store/reducers/auth.reducer";
+import { signUp, setEmail, setPassword, setName, setSurname, setRole, setSignUpError } from "../../store/reducers/auth.reducer";
 import { FormField } from "../Form/FormField";
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Alert } from "@mui/material";
 
@@ -48,7 +48,9 @@ export const SignUp = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(formOnSubmit)}>
-                <div className="row d-flex flex-column">
+                <div className="row d-flex flex-column align-items-center">
+                    <h3 className="text-center text-primary col-6">Регистрация</h3>
+
                     <FormField 
                         type='text'
                         register={register("email")}
@@ -59,7 +61,7 @@ export const SignUp = () => {
                         action={setEmail}
                         labelText='Почта'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='col-6'
                     />
 
                     <FormField 
@@ -72,7 +74,7 @@ export const SignUp = () => {
                         action={setPassword}
                         labelText='Пароль'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='mt-3 col-6'
                     />
 
                     <FormField 
@@ -85,7 +87,7 @@ export const SignUp = () => {
                         action={setName}
                         labelText='Имя'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='mt-3 col-6'
                     />
 
                     <FormField 
@@ -98,7 +100,7 @@ export const SignUp = () => {
                         action={setSurname}
                         labelText='Фамилия'
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass='mt-3 col-6'
                     />
 
                     <FormControl className="col-6 mt-3" size="small">
@@ -108,8 +110,7 @@ export const SignUp = () => {
                             value={role}
                             label="Роль"
                             onChange={handleOnChange}
-                            defaultValue="STUDENT"
-                        >
+                        >   
                             <MenuItem value="STUDENT">Студент</MenuItem>
                             <MenuItem value="MENTOR">Учитель</MenuItem>
                         </Select>
@@ -117,13 +118,20 @@ export const SignUp = () => {
 
                     <input 
                         type='submit' 
-                        className='btn btn-primary col-6 mt-3' 
-                        value="Зарегестрироваться" 
+                        className='btn btn-primary col-6 mt-4' 
+                        value="Зарегистрироваться" 
                     />
 
                     {
                         signUpThunk.error && (
-                            <Alert variant="outlined" severity="error">
+                            <Alert 
+                                className="mt-3 col-6"
+                                variant="filled" 
+                                severity="error" 
+                                onClose={() => {
+                                    dispatch(setSignUpError(null))
+                                }}
+                            >
                                 {signUpThunk.error}
                             </Alert>
                         )

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import "../styles/common.css"
 import { useDispatch } from "react-redux"
 import { Outlet } from "react-router"
 import { authMe } from "../store/reducers/auth.reducer"

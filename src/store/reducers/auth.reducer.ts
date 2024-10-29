@@ -7,6 +7,7 @@ interface Auth {
     signIn: ThunkType
     signUp: ThunkType
     signOut: ThunkType
+    authMe: ThunkType
     email: string
     password: string
     name: string
@@ -21,11 +22,12 @@ const authState: Auth = {
     signIn: GetThunkState(),
     signUp: GetThunkState(),
     signOut: GetThunkState(),
+    authMe: GetThunkState(),
     email: "",
     password: "",
     name: "",
     surname: "",
-    role: "",
+    role: "STUDENT",
     isAuthorized: false,
     actionError: "",
     user: null
@@ -92,6 +94,10 @@ export const authSlice = createSlice({
 
         setSignInError(state, action: PayloadAction<string | null>) {
             state.signIn.error = action.payload
+        },
+
+        setSignUpError(state, action: PayloadAction<string | null>) {
+          state.signUp.error = action.payload
         }
     },
 
@@ -131,6 +137,23 @@ export const authSlice = createSlice({
           })
 
 
+          .addCase(authMe.pending, (state, action) => {
+            state.authMe.status = 'pending'
+          })
+          .addCase(authMe.fulfilled, (state, action) => {
+            state.authMe.status = 'succeeded'
+
+            const result = action.payload
+
+            state.user = result
+            state.isAuthorized = true
+          })
+          .addCase(authMe.rejected, (state, action) => {
+            state.authMe.status = 'rejected'
+            state.authMe.error = action.error.message ?? 'Unknown Error'
+          })
+
+
           .addCase(signOut.pending, (state, action) => {
             state.signOut.status = 'pending'
           })
@@ -148,5 +171,5 @@ export const authSlice = createSlice({
 
 export const {
   setEmail, setPassword, setName, 
-  setSurname, setRole, setSignInError
+  setSurname, setRole, setSignInError, setSignUpError
 } = authSlice.actions

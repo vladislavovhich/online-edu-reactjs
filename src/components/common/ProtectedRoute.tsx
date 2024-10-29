@@ -7,8 +7,8 @@ interface ProtectedRouteProps {
   redirectTo: string;
 }
 
-export const AuthorizedRedirectTo: React.FC<ProtectedRouteProps> = ({ children, redirectTo }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, redirectTo }) => {
     const isAuthorized = useSelector((state: RootState) => state.auth.isAuthorized);
 
-    return isAuthorized ? <Navigate to={redirectTo} /> : children
+    return !isAuthorized ? <Navigate to={redirectTo} /> : children
 };
