@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../store/store"
 import { useDispatch } from "react-redux"
-import { signOut } from "../store/reducers/auth.reducer"
+import { signOut } from "../store/slices/auth.slice"
 import { Link } from "react-router-dom"
 
 export const Header = () => {

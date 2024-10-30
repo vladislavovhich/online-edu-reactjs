@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import "../styles/common.css"
 import { useDispatch } from "react-redux"
 import { Outlet } from "react-router"
-import { authMe } from "../store/reducers/auth.reducer"
+import { authMe } from "../store/slices/auth.slice"
 import { AppDispatch } from "../store/store"
 import { Header } from "./Header"
 

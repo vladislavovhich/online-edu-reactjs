@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signIn, setEmail, setPassword, setSignInError } from "../../store/reducers/auth.reducer";
+import { signIn, setEmail, setPassword, setSignInError } from "../../store/slices/auth.slice";
 import { FormField } from "../Form/FormField";
 import { Alert } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -42,6 +42,8 @@ export const SignIn = () => {
                 <div className="row d-flex flex-column align-items-center">
                     <h3 className="text-center text-primary col-6">Авторизация</h3>
 
+                    <hr className="col-6"/>
+                    
                     <FormField 
                         type='text'
                         register={register("email")}
@@ -52,7 +54,7 @@ export const SignIn = () => {
                         action={setEmail}
                         labelText='Почта'
                         clearError={clearErrors}
-                        extraClass='mt-3 col-6'
+                        extraClass='mt-1 col-6'
                     />
 
                     <FormField 

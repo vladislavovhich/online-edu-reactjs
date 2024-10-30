@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signUp, setEmail, setPassword, setName, setSurname, setRole, setSignUpError } from "../../store/reducers/auth.reducer";
+import { signUp, setEmail, setPassword, setName, setSurname, setRole, setSignUpError } from "../../store/slices/auth.slice";
 import { FormField } from "../Form/FormField";
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Alert } from "@mui/material";
 
@@ -51,6 +51,8 @@ export const SignUp = () => {
                 <div className="row d-flex flex-column align-items-center">
                     <h3 className="text-center text-primary col-6">Регистрация</h3>
 
+                    <hr className="col-6" />
+                    
                     <FormField 
                         type='text'
                         register={register("email")}

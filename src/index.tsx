@@ -12,6 +12,7 @@ import { SignUp } from './components/Auth/SignUp';
 import { AuthorizedRedirectTo } from './components/common/AuthorizedRedirectTo';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Profile } from './components/User/Profile';
+import { CourseCreate } from './components/Course/CourseCreate';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -53,7 +54,15 @@ export const router = createBrowserRouter([
               <Profile />
             </ProtectedRoute>
           )
-        }
+        },
+        {
+          path: "/courses/create",
+          element: (
+            <ProtectedRoute redirectTo='/auth/sign-in'>
+              <CourseCreate />
+            </ProtectedRoute>
+          )
+        },
       ]
     }
 ])
