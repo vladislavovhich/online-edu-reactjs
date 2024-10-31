@@ -49,7 +49,7 @@ export const SignUp = () => {
         <div>
             <form onSubmit={handleSubmit(formOnSubmit)}>
                 <div className="row d-flex flex-column align-items-center">
-                    <h3 className="text-center text-primary col-6">Регистрация</h3>
+                    <h3 className="text-center text-darker col-6">Регистрация</h3>
 
                     <hr className="col-6" />
                     
@@ -120,7 +120,7 @@ export const SignUp = () => {
 
                     <input 
                         type='submit' 
-                        className='btn btn-primary col-6 mt-4' 
+                        className='btn bg-darker col-6 mt-4' 
                         value="Зарегистрироваться" 
                     />
 

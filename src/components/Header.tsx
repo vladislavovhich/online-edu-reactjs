@@ -14,9 +14,9 @@ export const Header = () => {
     }
 
     return (
-        <header className='Header bg-light border'>
+        <header className='Header bg border'>
             <div className="container">
-                <nav className="navbar bg-light d-flex justify-content-between">
+                <nav className="navbar bg d-flex justify-content-between">
                     <a className="navbar-brand" href="#">Edu</a> 
 
                      {
@@ -28,7 +28,7 @@ export const Header = () => {
                                 onClick={handleSignOut}
                             />
                         ) : (
-                            <Link to="/auth/sign-in" className="btn btn-success">Войти</Link>
+                            <Link to="/auth/sign-in" className="btn bg-darker text-white">Войти</Link>
                         )
                     }  
                 </nav>

@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { createCourse, restoreThunk, setDescription, setName } from "../../store/slices/course-edit.slice";
 import { AppDispatch, RootState } from "../../store/store";
@@ -21,6 +21,7 @@ interface Form {
 
 export const CourseCreate = () => {
     const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
     const {name, description} = useSelector((state: RootState) => state.courseEdit)
     const createThunk = useSelector((state: RootState) => state.courseEdit.create)
 
@@ -29,12 +30,12 @@ export const CourseCreate = () => {
         defaultValues: {name, description}
     });
 
-    useEffect(() => {
-        dispatch(restoreThunk())
-    }, [])
-
     if (createThunk.status == "succeeded") {
-        return <Navigate to="/profile" />
+        dispatch(restoreThunk())
+
+        navigate("/profile")
+
+        return null
     }
 
     const formOnSubmit = (data: Form) => {

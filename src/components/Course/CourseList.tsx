@@ -13,8 +13,6 @@ export const CourseList = (props: Props) => {
 
     return (
         <div className="d-flex flex-column">
-            <Link to="/courses/create" className="btn btn-primary">Добавить курс</Link>
-
             <div className="d-flex flex-column">
                 {
                     courses != undefined && courses.map((course, index) => (

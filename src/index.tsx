@@ -13,6 +13,8 @@ import { AuthorizedRedirectTo } from './components/common/AuthorizedRedirectTo';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { Profile } from './components/User/Profile';
 import { CourseCreate } from './components/Course/CourseCreate';
+import { ProfileCourses } from './components/User/ProfileCourses';
+import { ProfileUpdate } from './components/User/ProfileUpdate';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,14 +25,6 @@ export const router = createBrowserRouter([
       path: "/",
       element: <App />,
       children: [
-        {
-          path: "/",
-          element: (
-            <AuthorizedRedirectTo redirectTo="/profile">
-              <span />
-            </AuthorizedRedirectTo>
-          )
-        },
         {
           path: "/auth/sign-in",
           element: (
@@ -53,7 +47,27 @@ export const router = createBrowserRouter([
             <ProtectedRoute redirectTo='/auth/sign-in'>
               <Profile />
             </ProtectedRoute>
-          )
+          ),
+          children: [
+            {
+              element: <ProfileCourses />,
+              path: "/profile/courses"
+            },
+            {
+              element: <ProfileUpdate />,
+              path: "/profile/update"
+            }
+          ]
+        },
+        {
+          path: "/profile/:userId",
+          element: <Profile />,
+          children: [
+            {
+              element: <ProfileCourses />,
+              path: "/profile/:userId/courses"
+            },
+          ]
         },
         {
           path: "/courses/create",

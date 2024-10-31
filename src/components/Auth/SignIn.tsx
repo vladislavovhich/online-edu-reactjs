@@ -40,7 +40,7 @@ export const SignIn = () => {
         <div>
             <form onSubmit={handleSubmit(formOnSubmit)}>
                 <div className="row d-flex flex-column align-items-center">
-                    <h3 className="text-center text-primary col-6">Авторизация</h3>
+                    <h3 className="text-center text-darker col-6">Авторизация</h3>
 
                     <hr className="col-6"/>
                     
@@ -70,11 +70,11 @@ export const SignIn = () => {
                         extraClass='mt-3 col-6'
                     />
 
-                    <Link to="/auth/sign-up" className="text-center text-primary my-1">Нет аккаунта?</Link>
+                    <Link to="/auth/sign-up" className="text-center text-darker my-1">Нет аккаунта?</Link>
                     
                     <input 
                         type='submit' 
-                        className='btn btn-primary col-6 mt-2' 
+                        className='btn bg-darker text-white col-6 mt-2' 
                         value="Войти" 
                     />
 

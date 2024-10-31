@@ -2,6 +2,36 @@
     border-bottom: 1px solid gray;
 }
 
+.bg {
+    background-color: #ade8f4;
+}
+
 .border-rounded {
     border-radius: 15px;
+}
+
+.bg-darker {
+    background-color: #48cae4;
+}
+
+.text-darker {
+    color: #023e8a;
+}
+
+body {
+    background: rgb(255, 254, 254)
+}
+
+.link {
+    text-decoration: none;
+    transition: all 1.5;
+    color: #023e8a;
+}
+
+.link-active {
+    color: #2a7be6
+}
+
+.link:hover {
+    color: #2a7be6
 }

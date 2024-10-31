@@ -3,24 +3,36 @@ import { AppDispatch, RootState } from "../../store/store"
 import { useSelector } from "react-redux"
 import { Avatar } from "@mui/material"
 import { stringAvatar } from "../../helpers/color-avatar.helper";
-import { CourseList } from "../Course/CourseList";
 import { useDispatch } from "react-redux";
-import { getCourses } from "../../store/slices/course.slice";
+import { ProfileNavBar } from "./ProfileNavBar"
+import { Outlet, useParams, Navigate } from "react-router-dom"
+import { getUser } from "../../store/slices/user-profile.slice";
 
 export const Profile = () => {
     const dispatch = useDispatch<AppDispatch>()
-    const {user, isAuthorized} = useSelector((state: RootState) => state.auth)
-    const {courses} = useSelector((state: RootState) => state.course)
-    
+    const params = useParams<{userId: string}>()
+    const {user: userAuthorized, isAuthorized} = useSelector((state: RootState) => state.auth)
+    const {user: profileUser} = useSelector((state: RootState) => state.userProfile)
+ 
     useEffect(() => {
-        if (!user) {
-            return
+        if (!!params.userId && !Number.isNaN(params.userId)) {
+            const userId = parseInt(params.userId)
+            
+            dispatch(getUser(userId))
         }
+    }, [params.userId])
 
-        dispatch(getCourses(user.id))
-    }, [user])
+    if (!userAuthorized && !profileUser) {
+        return null
+    }
 
-    if (!user || !isAuthorized) {
+    if (userAuthorized && profileUser && userAuthorized.id == profileUser.id) {
+        return <Navigate to="/profile" />
+    }
+
+    const user = !Number.isNaN(params.userId) ? userAuthorized : profileUser
+
+    if (!user) {
         return null
     }
 
@@ -34,22 +46,22 @@ export const Profile = () => {
                     {...stringAvatar(`${user.name} ${user.surname}`, 56, 56)} 
                 />
                 
-                <h3 className="mx-2">{`${user.name} ${user.surname}`}</h3>
+                <h3 className="mx-2 text-darker">{`${user.name} ${user.surname}`}</h3>
 
                 <div className={`${bgColor} text-white badge`}>{text}</div>
             </div>
 
             <hr className="my-0"/>
 
+            <ProfileNavBar 
+                user={user}
+                currentUser={userAuthorized}
+            />
+
+            <hr className="my-0"/>
+
             <div className="d-flex flex-column">
-                <h3 className="h3 text-primary my-3">Курсы</h3>
-
-                <hr className="mt-0 mb-3"/>
-
-                <CourseList 
-                    courses={courses} 
-                    currentUserId={user.id}
-                />
+                <Outlet />
             </div>
         </div>
     )
