@@ -42,7 +42,6 @@ export const courseSlice = createSlice({
             .addCase(getCourses.fulfilled, (state, action) => {
                 state.getCourses.status = 'succeeded'
 
-                console.log(action.payload)
                 state.courses = action.payload.items
                 state.nextPage = action.payload.nextPage 
                 state.prevPage = action.payload.nextPage 

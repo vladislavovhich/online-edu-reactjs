@@ -15,13 +15,14 @@ export const CourseList = (props: Props) => {
         <div className="d-flex flex-column">
             <Link to="/courses/create" className="btn btn-primary">Добавить курс</Link>
 
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-column">
                 {
                     courses != undefined && courses.map((course, index) => (
                         <Course 
                             {...course} 
                             currentUserId={props.currentUserId}
                             key={index.toString()}
+                            index={index}
                         />
                     ))
                 }

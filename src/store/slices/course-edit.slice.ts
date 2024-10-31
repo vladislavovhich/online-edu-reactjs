@@ -58,6 +58,10 @@ export const courseEditSlice = createSlice({
 
         setDescription(state, action: PayloadAction<string>) {
             state.description = action.payload
+        },
+
+        restoreThunk(state) {
+            state.create.status = "idle"
         }
     },
     extraReducers: builder => {
@@ -102,5 +106,5 @@ export const courseEditSlice = createSlice({
 })
 
 export const {
-    setName, setDescription
+    setName, setDescription, restoreThunk
 } = courseEditSlice.actions

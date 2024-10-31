@@ -1,45 +1,69 @@
+import { faCalendarDays, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Avatar, Card, CardContent, CardHeader } from "@mui/material"
 import React, { useEffect } from "react"
+import { Link } from "react-router-dom"
+import { stringAvatar } from "../../helpers/color-avatar.helper"
 import { GetCourse } from "../../types/course.types"
 
 interface Props extends GetCourse {
     currentUserId: number | undefined
+    index: number
 }
 
 export const Course = (props: Props) => {
+    const mentor = props.mentor
+    
     return (
-        <div className="d-flex flex-column">
-            <div>{props.name}</div>
+        <div className={`d-flex flex-column bg-light border px-4 py-4 mt-3 border-rounded`}>
+            <div className="d-flex flex-row justify-content-between align-items-center">
+                <div className="d-flex flex-row">
+                    <Avatar 
+                        {...stringAvatar(`${mentor.name} ${mentor.surname}`, 42, 42)} 
+                    />
+                    <div className="text-primary h5 mt-2 ms-1">{`${mentor.name} ${mentor.surname}`}</div>
+                </div>
 
-            <hr />
-
-            <div>{props.description}</div>
-
-            <hr />
-
-            {
-                props.currentUserId && props.currentUserId == props.mentor.id && (
-                    <>
+                {
+                    props.currentUserId && props.currentUserId == mentor.id && (
                         <div className="d-flex flex-row">
-                            <input 
-                                type="button"
-                                className="btn btn-primary"
-                                value="Редактировать"
-                            />
-
-                            <input 
-                                type="button"
-                                className="btn btn-danger"
-                                value="Удалить"
-                            />
+                            <Link to={`/courses/${props.id}/edit`} className="mb-1 d-flex flex-row btn btn-primary">
+                                <div className="text-white">Редактировать</div>
+                                <FontAwesomeIcon icon={faPencil} className="mt-1 ms-1"/>
+                            </Link>
+                            <Link to={`/courses/${props.id}/delete`} className="mb-1 ms-2 d-flex flex-row btn btn-danger">
+                                <div className="text-white">Удалить</div>
+                                <FontAwesomeIcon icon={faTrash} className="mt-1 ms-1"/>
+                            </Link>
                         </div>
                         
-                        <hr />
-                    </>
-                )
-            }
+                    )
+                }
+            </div>
 
-            <div className="badge">{props.lecturesAmount}</div>
-            <div className="badge">{props.studentsAmount}</div>
+            <hr className="my-2"/>
+
+            <div className="d-flex flex-row justify-content-between align-items-center">
+                <div className="h4 text-primary text-break">{props.name}</div>
+            </div>
+
+            <hr className="my-2"/>
+
+            <div className="d-flex flex-column">
+                <div className="text-primary font-bolder text-break">{props.description}</div>
+            </div>
+
+            <hr className="my-2"/>
+            
+
+            <div className="d-flex flex-column">
+                <Link className="badge bg-primary text-wrap" to={`/courses/${props.id}`}>Подробнее...</Link>
+
+                <hr className="my-2 mb-0"/>
+
+                <div className="badge bg-primary text-wrap mt-2">Студентов: {props.studentsAmount}</div>
+                <div className="badge bg-primary text-wrap mt-2 ">Лекций: {props.lecturesAmount}</div>
+            </div>
         </div>
     )
 }

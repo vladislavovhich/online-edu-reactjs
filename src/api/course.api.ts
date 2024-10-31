@@ -6,7 +6,7 @@ import { Api } from "./api";
 export const CourseApi = {
     async getCourses(userId: number) {
         try {
-            const response = await Api.get(`/users/${userId}/courses`)
+            const response = await Api.get<PaginationResponseDto<GetCourse>>(`/users/${userId}/courses`)
 
             return response.data 
         }

@@ -16,4 +16,5 @@ export interface GetCourse {
     studentsAmount: number
     lecturesAmount: number
     mentor: User
+    createdAt: string
 }
