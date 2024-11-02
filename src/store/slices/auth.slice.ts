@@ -4,18 +4,18 @@ import { SignIn, SignUp, User } from "../../types/auth.types";
 import { createAppAsyncThunk, GetThunkState, ThunkType } from "../store.types";
 
 interface Auth {
-    signIn: ThunkType
-    signUp: ThunkType
-    signOut: ThunkType
-    authMe: ThunkType
-    email: string
-    password: string
-    name: string
-    surname: string
-    role: string
-    isAuthorized: boolean
-    actionError: string
-    user: User | null
+    signIn: ThunkType;
+    signUp: ThunkType;
+    signOut: ThunkType;
+    authMe: ThunkType;
+    email: string;
+    password: string;
+    name: string;
+    surname: string;
+    role: string;
+    isAuthorized: boolean;
+    actionError: string;
+    user: User | null;
 }
 
 const authState: Auth = {
@@ -30,146 +30,146 @@ const authState: Auth = {
     role: "STUDENT",
     isAuthorized: false,
     actionError: "",
-    user: null
-}
+    user: null,
+};
 
 export const signIn = createAppAsyncThunk(
     "auth/auth-sign-in",
     async (data: SignIn) => {
-        const result = await AuthApi.signIn(data)
+        const result = await AuthApi.signIn(data);
 
-        return result
+        return result;
     }
-)
+);
 
 export const signUp = createAppAsyncThunk(
     "auth/auth-sign-up",
     async (data: SignUp) => {
-        const result = await AuthApi.signUp(data)
+        const result = await AuthApi.signUp(data);
 
-        return result
+        return result;
     }
-)
+);
 
-export const signOut = createAppAsyncThunk(
-    "auth/auth-sign-out",
-    async () => {
-        await AuthApi.signOut()
-    }
-)
+export const signOut = createAppAsyncThunk("auth/auth-sign-out", async () => {
+    await AuthApi.signOut();
+});
 
-export const authMe = createAppAsyncThunk(
-    'auth/auth-me',
-    async () => {
-        const result = await AuthApi.authMe()
+export const authMe = createAppAsyncThunk("auth/auth-me", async () => {
+    const result = await AuthApi.authMe();
 
-        return result
-    }
-) 
-
+    return result;
+});
 
 export const authSlice = createSlice({
     name: "auth",
     initialState: authState,
     reducers: {
         setEmail(state, action: PayloadAction<string>) {
-            state.email = action.payload
+            state.email = action.payload;
         },
 
         setPassword(state, action: PayloadAction<string>) {
-            state.password = action.payload
+            state.password = action.payload;
         },
 
         setName(state, action: PayloadAction<string>) {
-            state.name = action.payload
+            state.name = action.payload;
         },
 
         setSurname(state, action: PayloadAction<string>) {
-            state.surname = action.payload
+            state.surname = action.payload;
         },
 
         setRole(state, action: PayloadAction<string>) {
-            state.role = action.payload
+            state.role = action.payload;
         },
 
         setSignInError(state, action: PayloadAction<string | null>) {
-            state.signIn.error = action.payload
+            state.signIn.error = action.payload;
         },
 
         setSignUpError(state, action: PayloadAction<string | null>) {
-          state.signUp.error = action.payload
-        }
+            state.signUp.error = action.payload;
+        },
+
+        setUser(state, action: PayloadAction<User>) {
+            state.user = action.payload;
+        },
     },
 
-    extraReducers: builder => {
+    extraReducers: (builder) => {
         builder
-          .addCase(signIn.pending, (state, action) => {
-            state.signIn.status = 'pending'
-          })
-          .addCase(signIn.fulfilled, (state, action) => {
-            state.signIn.status = 'succeeded'
+            .addCase(signIn.pending, (state, action) => {
+                state.signIn.status = "pending";
+            })
+            .addCase(signIn.fulfilled, (state, action) => {
+                state.signIn.status = "succeeded";
 
-            const result = action.payload
+                const result = action.payload;
 
-            state.user = result
-            state.isAuthorized = true
-          })
-          .addCase(signIn.rejected, (state, action) => {
-            state.signIn.status = 'rejected'
-            state.signIn.error = action.error.message ?? 'Unknown Error'
-          })
+                state.user = result;
+                state.isAuthorized = true;
+            })
+            .addCase(signIn.rejected, (state, action) => {
+                state.signIn.status = "rejected";
+                state.signIn.error = action.error.message ?? "Unknown Error";
+            })
 
+            .addCase(signUp.pending, (state, action) => {
+                state.signUp.status = "pending";
+            })
+            .addCase(signUp.fulfilled, (state, action) => {
+                state.signUp.status = "succeeded";
 
-          .addCase(signUp.pending, (state, action) => {
-            state.signUp.status = 'pending'
-          })
-          .addCase(signUp.fulfilled, (state, action) => {
-            state.signUp.status = 'succeeded'
+                const result = action.payload;
 
-            const result = action.payload
+                state.user = result;
+                state.isAuthorized = true;
+            })
+            .addCase(signUp.rejected, (state, action) => {
+                state.signUp.status = "rejected";
+                state.signUp.error = action.error.message ?? "Unknown Error";
+            })
 
-            state.user = result
-            state.isAuthorized = true
-          })
-          .addCase(signUp.rejected, (state, action) => {
-            state.signUp.status = 'rejected'
-            state.signUp.error = action.error.message ?? 'Unknown Error'
-          })
+            .addCase(authMe.pending, (state, action) => {
+                state.authMe.status = "pending";
+            })
+            .addCase(authMe.fulfilled, (state, action) => {
+                state.authMe.status = "succeeded";
 
+                const result = action.payload;
 
-          .addCase(authMe.pending, (state, action) => {
-            state.authMe.status = 'pending'
-          })
-          .addCase(authMe.fulfilled, (state, action) => {
-            state.authMe.status = 'succeeded'
+                state.user = result;
+                state.isAuthorized = true;
+            })
+            .addCase(authMe.rejected, (state, action) => {
+                state.authMe.status = "rejected";
+                state.authMe.error = action.error.message ?? "Unknown Error";
+            })
 
-            const result = action.payload
-
-            state.user = result
-            state.isAuthorized = true
-          })
-          .addCase(authMe.rejected, (state, action) => {
-            state.authMe.status = 'rejected'
-            state.authMe.error = action.error.message ?? 'Unknown Error'
-          })
-
-
-          .addCase(signOut.pending, (state, action) => {
-            state.signOut.status = 'pending'
-          })
-          .addCase(signOut.fulfilled, (state, action) => {
-            state.signOut.status = 'succeeded'
-            state.user = null
-            state.isAuthorized = false
-          })
-          .addCase(signOut.rejected, (state, action) => {
-            state.signOut.status = 'rejected'
-            state.signOut.error = action.error.message ?? 'Unknown Error'
-          })
-    }
-})
+            .addCase(signOut.pending, (state, action) => {
+                state.signOut.status = "pending";
+            })
+            .addCase(signOut.fulfilled, (state, action) => {
+                state.signOut.status = "succeeded";
+                state.user = null;
+                state.isAuthorized = false;
+            })
+            .addCase(signOut.rejected, (state, action) => {
+                state.signOut.status = "rejected";
+                state.signOut.error = action.error.message ?? "Unknown Error";
+            });
+    },
+});
 
 export const {
-  setEmail, setPassword, setName, 
-  setSurname, setRole, setSignInError, setSignUpError
-} = authSlice.actions
+    setEmail,
+    setPassword,
+    setName,
+    setSurname,
+    setRole,
+    setSignInError,
+    setSignUpError,
+    setUser,
+} = authSlice.actions;

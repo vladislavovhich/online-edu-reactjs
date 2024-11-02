@@ -1,11 +1,16 @@
-import React from "react"
-import * as Yup from 'yup';
+import React from "react";
+import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signIn, setEmail, setPassword, setSignInError } from "../../store/slices/auth.slice";
+import {
+    signIn,
+    setEmail,
+    setPassword,
+    setSignInError,
+} from "../../store/slices/auth.slice";
 import { FormField } from "../Form/FormField";
 import { Alert } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -13,87 +18,97 @@ import { Link } from "react-router-dom";
 const FormSchema = Yup.object({
     email: Yup.string().email().required(),
     password: Yup.string().min(5).max(35).required(),
-})
+});
 
 interface Form {
-    email: string
-    password: string
+    email: string;
+    password: string;
 }
 
 export const SignIn = () => {
-    const dispatch = useDispatch<AppDispatch>()
-    const {email, password} = useSelector((state: RootState) => state.auth)
-    const signInThunk = useSelector((state: RootState) => state.auth.signIn)
+    const dispatch = useDispatch<AppDispatch>();
+    const { email, password } = useSelector((state: RootState) => state.auth);
+    const signInThunk = useSelector((state: RootState) => state.auth.signIn);
 
-    const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<Form>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        clearErrors,
+    } = useForm<Form>({
         resolver: yupResolver(FormSchema),
-        defaultValues: {email, password}
+        defaultValues: { email, password },
     });
 
-
     const formOnSubmit = (data: Form) => {
-        dispatch(setSignInError(null))
-        dispatch(signIn(data))
-    }
+        dispatch(setSignInError(null));
+        dispatch(signIn(data));
+    };
 
     return (
         <div>
             <form onSubmit={handleSubmit(formOnSubmit)}>
                 <div className="row d-flex flex-column align-items-center">
-                    <h3 className="text-center text-darker col-6">Авторизация</h3>
+                    <h3 className="text-center text-darker col-6">
+                        Авторизация
+                    </h3>
 
-                    <hr className="col-6"/>
-                    
-                    <FormField 
-                        type='text'
+                    <hr className="col-6" />
+
+                    <FormField
+                        type="text"
                         register={register("email")}
                         value={email}
-                        placeholder='Введите почту'
+                        placeholder="Введите почту"
                         error={errors.email}
-                        id='email'
+                        id="email"
                         action={setEmail}
-                        labelText='Почта'
+                        labelText="Почта"
                         clearError={clearErrors}
-                        extraClass='mt-1 col-6'
+                        extraClass="mt-1 col-6"
                     />
 
-                    <FormField 
-                        type='password'
+                    <FormField
+                        type="password"
                         register={register("password")}
                         value={password}
-                        placeholder='Введите пароль'
+                        placeholder="Введите пароль"
                         error={errors.password}
-                        id='password'
+                        id="password"
                         action={setPassword}
-                        labelText='Пароль'
+                        labelText="Пароль"
                         clearError={clearErrors}
-                        extraClass='mt-3 col-6'
+                        extraClass="mt-3 col-6"
                     />
 
-                    <Link to="/auth/sign-up" className="text-center text-darker my-1">Нет аккаунта?</Link>
-                    
-                    <input 
-                        type='submit' 
-                        className='btn bg-darker text-white col-6 mt-2' 
-                        value="Войти" 
+                    <Link
+                        to="/auth/sign-up"
+                        className="text-center text-darker my-1"
+                    >
+                        Нет аккаунта?
+                    </Link>
+
+                    <input
+                        type="submit"
+                        className="btn-darker text-white col-6 mt-2"
+                        value="Войти"
                     />
 
-                    {
-                        signInThunk.error && (
-                            <Alert 
-                                className="mt-3 col-6"
-                                variant="filled" 
-                                severity="error" 
-                                onClose={() => {
-                                    dispatch(setSignInError(null))
-                                }}
-                            >
-                                {signInThunk.error}
-                            </Alert>
-                        )
-                    }
+                    {signInThunk.error && (
+                        <Alert
+                            className="mt-3 col-6"
+                            variant="filled"
+                            severity="error"
+                            onClose={() => {
+                                dispatch(setSignInError(null));
+                            }}
+                        >
+                            {signInThunk.error}
+                        </Alert>
+                    )}
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};

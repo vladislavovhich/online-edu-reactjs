@@ -1,89 +1,35 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect } from "react"
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import * as Yup from 'yup';
-import { createCourse, restoreThunk, setDescription, setName } from "../../store/slices/course-edit.slice";
+import { useSelector } from "react-redux";
+import {
+    createCourse,
+    restoreCreateThunk,
+} from "../../store/slices/course-edit.slice";
 import { AppDispatch, RootState } from "../../store/store";
-import { FormField } from "../Form/FormField";
-import { FormTextArea } from "../Form/FormTextArea";
-
-const FormSchema = Yup.object({
-    name: Yup.string().min(1).max(45).required(),
-    description: Yup.string().min(3).max(255).required()
-})
-
-interface Form {
-    name: string
-    description: string
-}
+import { CourseEdit } from "./CourseEdit";
+import { WithPrealoader } from "../common/WithPreloader";
 
 export const CourseCreate = () => {
-    const dispatch = useDispatch<AppDispatch>()
-    const navigate = useNavigate()
-    const {name, description} = useSelector((state: RootState) => state.courseEdit)
-    const createThunk = useSelector((state: RootState) => state.courseEdit.create)
-
-    const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm<Form>({
-        resolver: yupResolver(FormSchema),
-        defaultValues: {name, description}
-    });
-
-    if (createThunk.status == "succeeded") {
-        dispatch(restoreThunk())
-
-        navigate("/profile")
-
-        return null
-    }
-
-    const formOnSubmit = (data: Form) => {
-        dispatch(createCourse(data))
-    }
+    const createCourseThunk = useSelector(
+        (state: RootState) => state.courseEdit.create
+    );
+    const { name, description } = useSelector(
+        (state: RootState) => state.courseEdit
+    );
+    const getCourseThunk = useSelector(
+        (state: RootState) => state.course.getCourse
+    );
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(formOnSubmit)}>
-                <div className="row d-flex flex-column">
-                    <h3 className="h3 text-primary">Добавление курса</h3>
-                
-                    <hr className="col-6"/>
-
-                    <FormField 
-                        type='text'
-                        register={register("name")}
-                        value={name}
-                        placeholder='Название курса'
-                        error={errors.name}
-                        id='name'
-                        action={setName}
-                        labelText='Название курса'
-                        clearError={clearErrors}
-                        extraClass='col-6'
-                    />
-
-                    <FormTextArea 
-                        type='text'
-                        register={register("description")}
-                        value={description}
-                        placeholder='Описание курса'
-                        error={errors.description}
-                        id='description'
-                        action={setDescription}
-                        labelText='Описание курса'
-                        clearError={clearErrors}
-                        extraClass='mt-3 col-6'
-                        maxRows={3}
-                    />
-
-                    <input 
-                        type='submit' 
-                        className='btn btn-primary col-6 mt-2' 
-                        value="Создать курс" 
-                    />
-                </div>
-            </form>
-        </div>
-    )
-}
+        <WithPrealoader status={getCourseThunk.status}>
+            <CourseEdit
+                navigateTo={"/profile/courses"}
+                type={"create"}
+                thunk={createCourseThunk}
+                thunkAction={() => createCourse({ name, description })}
+                restoreThunk={restoreCreateThunk}
+                text={"Создание курса"}
+                buttonText={"Создать"}
+                course={null}
+            />
+        </WithPrealoader>
+    );
+};

@@ -5,13 +5,13 @@ import { UserUpdate } from "../../types/user.types";
 import { createAppAsyncThunk, GetThunkState, ThunkType } from "../store.types";
 
 interface State {
-    user: User | null,
-    getUser: ThunkType,
-    updateUser: ThunkType,
-    name: string,
-    surname: string,
-    password: string,
-    passwordOld: string
+    user: User | null;
+    getUser: ThunkType;
+    updateUser: ThunkType;
+    name: string;
+    surname: string;
+    password: string;
+    userUpdated: User | null;
 }
 
 const state: State = {
@@ -21,73 +21,82 @@ const state: State = {
     name: "",
     surname: "",
     password: "",
-    passwordOld: ""
-}
+    userUpdated: null,
+};
 
 export const getUser = createAppAsyncThunk(
-    'user-profile/get-user-thunk',
+    "user-profile/get-user-thunk",
     async (userId: number) => {
-        const user = await UserApi.findOne(userId)
+        const user = await UserApi.findOne(userId);
 
-        return user
+        return user;
     }
-)
+);
 
 export const updateUser = createAppAsyncThunk(
-    'user-profile/update-user-thunk',
+    "user-profile/update-user-thunk",
     async (data: UserUpdate) => {
-        const user = await UserApi.update(data)
+        const user = await UserApi.update(data);
 
-        return user
+        return user;
     }
-)
+);
 
 export const userProfileSlice = createSlice({
     name: "user-profile",
     initialState: state,
     reducers: {
         setName(state, action: PayloadAction<string>) {
-            state.name = action.payload
+            state.name = action.payload;
         },
         setSurname(state, action: PayloadAction<string>) {
-            state.surname = action.payload
+            state.surname = action.payload;
         },
         setPassword(state, action: PayloadAction<string>) {
-            state.password = action.payload
+            state.password = action.payload;
         },
-        setOldPassword(state, action: PayloadAction<string>) {
-            state.passwordOld = action.payload
-        }
+        setUpdateThunkError(state, action: PayloadAction<string | null>) {
+            state.updateUser.error = action.payload;
+        },
+        restoreUpdateThunk(state) {
+            state.updateUser.status = "idle";
+        },
     },
-    extraReducers: builder => {
+    extraReducers: (builder) => {
         builder
-        .addCase(getUser.pending, (state, action) => {
-            state.getUser.status = 'pending'
-        })
-        .addCase(getUser.fulfilled, (state, action) => {
-            state.getUser.status = 'succeeded'
+            .addCase(getUser.pending, (state, action) => {
+                state.getUser.status = "pending";
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.getUser.status = "succeeded";
 
-            state.user = action.payload
-        })
-        .addCase(getUser.rejected, (state, action) => {
-            state.getUser.status = 'rejected'
-            state.getUser.error = action.error.message ?? 'Unknown Error'
-        })
+                state.user = action.payload;
+            })
+            .addCase(getUser.rejected, (state, action) => {
+                state.getUser.status = "rejected";
+                state.getUser.error = action.error.message ?? "Unknown Error";
+            })
 
+            .addCase(updateUser.pending, (state, action) => {
+                state.updateUser.status = "pending";
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.updateUser.status = "succeeded";
 
-        .addCase(updateUser.pending, (state, action) => {
-            state.getUser.status = 'pending'
-        })
-        .addCase(updateUser.fulfilled, (state, action) => {
-            state.getUser.status = 'succeeded'
+                state.userUpdated = action.payload;
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.updateUser.status = "rejected";
+                state.updateUser.error =
+                    action.error.message ?? "Unknown Error";
+            });
+    },
+});
 
-            state.user = action.payload
-        })
-        .addCase(updateUser.rejected, (state, action) => {
-            state.updateUser.status = 'rejected'
-            state.updateUser.error = action.error.message ?? 'Unknown Error'
-        })
-    }
-})
-
-export const {setName, setSurname, setPassword, setOldPassword} = userProfileSlice.actions
+export const {
+    setName,
+    setSurname,
+    setPassword,
+    setUpdateThunkError,
+    restoreUpdateThunk,
+} = userProfileSlice.actions;

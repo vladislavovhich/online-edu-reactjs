@@ -1,37 +1,69 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getCourses } from "../../store/slices/course.slice"
-import { AppDispatch, RootState } from "../../store/store"
-import { CourseList } from "../Course/CourseList"
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourses, loadCourses } from "../../store/slices/course.slice";
+import { AppDispatch, RootState } from "../../store/store";
+import { CourseList } from "../Course/CourseList";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { WithPrealoader } from "../common/WithPreloader";
+import { useUserProfile } from "../../hooks/useUserProfile.hook";
 
-export const ProfileCourses = () => { 
-    const dispatch = useDispatch<AppDispatch>()
+export const ProfileCourses = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const { user, userAuthorized, isProfileOwner } = useUserProfile();
+    const { courses, nextPage, pageSize } = useSelector(
+        (state: RootState) => state.course
+    );
+    const getCoursesThunk = useSelector(
+        (state: RootState) => state.course.getCourses
+    );
+    const loadCoursesThunk = useSelector(
+        (state: RootState) => state.course.loadCourses
+    );
 
-    const {user, isAuthorized} = useSelector((state: RootState) => state.auth)
-    const {courses} = useSelector((state: RootState) => state.course)
-    
-    useEffect(() => {
-        if (!user) {
-            return
+    const loadCoursesFunc = () => {
+        if (!nextPage || !user) {
+            return;
         }
 
-        dispatch(getCourses(user.id))
-    }, [user])
+        dispatch(loadCourses({ page: nextPage, pageSize, userId: user.id }));
+    };
 
-    if (!user || !isAuthorized) {
-        return null
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+
+        dispatch(getCourses(user.id));
+    }, [user]);
+
+    if (!user) {
+        return null;
     }
 
     return (
         <div className="d-flex flex-column">
             <h3 className="h3 text-darker my-3">Курсы</h3>
 
-            <hr className="mt-0 mb-3"/>
+            <hr className="mt-0 mb-3" />
 
-            <CourseList 
-                courses={courses} 
-                currentUserId={user.id}
-            />
+            {userAuthorized &&
+                userAuthorized.role == "MENTOR" &&
+                user.id == userAuthorized.id && (
+                    <Link to="/courses/create" className="btn-darker">
+                        Добавить курс
+                    </Link>
+                )}
+
+            <WithPrealoader status={getCoursesThunk.status}>
+                <CourseList
+                    courses={courses}
+                    currentUserId={user.id}
+                    authorizedUserId={userAuthorized?.id}
+                    loadCoursesFunc={loadCoursesFunc}
+                    nextPage={nextPage}
+                    loadStatus={loadCoursesThunk.status}
+                />
+            </WithPrealoader>
         </div>
-    )
-}
+    );
+};

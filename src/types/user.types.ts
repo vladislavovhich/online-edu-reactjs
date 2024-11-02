@@ -1,6 +1,5 @@
 export interface UserUpdate {
-    password: string
-    name: string
-    surname: string
-    userId: number
+    password?: string | undefined;
+    name: string;
+    surname: string;
 }

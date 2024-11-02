@@ -19,7 +19,7 @@
 }
 
 body {
-    background: rgb(255, 254, 254)
+    background: rgb(255, 254, 254);
 }
 
 .link {
@@ -29,9 +29,34 @@ body {
 }
 
 .link-active {
-    color: #2a7be6
+    color: #2a7be6;
 }
 
 .link:hover {
-    color: #2a7be6
+    color: #2a7be6;
+}
+
+.btn-darker {
+    background-color: #48cae4;
+    transition: all 0.5s;
+    border: 1px solid #48cae4;
+    padding: 6px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+}
+
+.link-header-active {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.link-header {
+    color: rgb(139, 139, 139);
+    text-decoration: none;
+}
+
+.btn-darker:hover {
+    background-color: #318c9f;
 }
