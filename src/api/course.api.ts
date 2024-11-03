@@ -8,6 +8,55 @@ import { Course, CourseUpdate, GetCourse } from "../types/course.types";
 import { Api } from "./api";
 
 export const CourseApi = {
+    async subscribe(courseId: number) {
+        try {
+            const response = await Api.put(`/courses/${courseId}/subscribe`);
+
+            return response.data;
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
+    async unsubscribe(courseId: number) {
+        try {
+            const response = await Api.put(`/courses/${courseId}/unsubscribe`);
+
+            return response.data;
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
+    async getAllCourses(data: Pagination) {
+        const { page, pageSize } = data;
+
+        try {
+            const response = await Api.get<PaginationResponse<GetCourse>>(
+                `/courses`,
+                {
+                    params: { page, pageSize },
+                }
+            );
+
+            return response.data;
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
     async loadCourses(data: UserCoursesPagination) {
         const { userId, page, pageSize } = data;
 

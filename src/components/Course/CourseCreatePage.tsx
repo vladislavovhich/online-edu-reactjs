@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { CourseEdit } from "./CourseEdit";
 import { WithPrealoader } from "../common/WithPreloader";
 
-export const CourseCreate = () => {
+export const CourseCreatePage = () => {
     const createCourseThunk = useSelector(
         (state: RootState) => state.courseEdit.create
     );

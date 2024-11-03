@@ -9,7 +9,7 @@ import { Outlet, useParams, Navigate } from "react-router-dom";
 import { getUser } from "../../store/slices/user-profile.slice";
 import { useUserProfile } from "../../hooks/useUserProfile.hook";
 
-export const Profile = () => {
+export const ProfilePage = () => {
     const { user, userAuthorized, isProfileOwner } = useUserProfile();
 
     if (!user) {
@@ -35,14 +35,9 @@ export const Profile = () => {
                 <div className={`${bgColor} text-white badge`}>{text}</div>
             </div>
 
-            {((userAuthorized && userAuthorized.id == user.id) ||
-                !userAuthorized) && (
-                <>
-                    <hr className="my-0" />
+            <hr className="my-0" />
 
-                    <ProfileNavBar user={user} currentUser={userAuthorized} />
-                </>
-            )}
+            <ProfileNavBar user={user} currentUser={userAuthorized} />
 
             <hr className="my-0" />
 

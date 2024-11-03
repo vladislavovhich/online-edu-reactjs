@@ -7,9 +7,9 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { WithPrealoader } from "../common/WithPreloader";
 import { useUserProfile } from "../../hooks/useUserProfile.hook";
 
-export const ProfileCourses = () => {
+export const ProfileCoursesPage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { user, userAuthorized, isProfileOwner } = useUserProfile();
+    const { user, userAuthorized, isProfileOwner, userId } = useUserProfile();
     const { courses, nextPage, pageSize } = useSelector(
         (state: RootState) => state.course
     );
@@ -34,7 +34,7 @@ export const ProfileCourses = () => {
         }
 
         dispatch(getCourses(user.id));
-    }, [user]);
+    }, [userId]);
 
     if (!user) {
         return null;
@@ -62,6 +62,7 @@ export const ProfileCourses = () => {
                     loadCoursesFunc={loadCoursesFunc}
                     nextPage={nextPage}
                     loadStatus={loadCoursesThunk.status}
+                    currentUser={userAuthorized}
                 />
             </WithPrealoader>
         </div>

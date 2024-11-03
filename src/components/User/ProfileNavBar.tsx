@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { User } from "../../types/auth.types";
-import { ProfileNavBarLink } from "./ProfileNavBarLink";
+import { IconNavLink } from "./IconNavLink";
 
 interface Props {
     user: User;
@@ -17,7 +17,7 @@ interface Props {
 export const ProfileNavBar = (props: Props) => {
     return (
         <div className="d-flex flex-row justify-content-between py-3">
-            <ProfileNavBarLink
+            <IconNavLink
                 text="Курсы"
                 url={
                     props.currentUser && props.currentUser.id == props.user.id
@@ -29,13 +29,13 @@ export const ProfileNavBar = (props: Props) => {
 
             {props.currentUser && props.currentUser.id == props.user.id && (
                 <>
-                    <ProfileNavBarLink
+                    <IconNavLink
                         text="Сообщения"
                         url="/messages"
                         icon={faComments}
                     />
 
-                    <ProfileNavBarLink
+                    <IconNavLink
                         text="Настройки"
                         url="/profile/update"
                         icon={faGear}

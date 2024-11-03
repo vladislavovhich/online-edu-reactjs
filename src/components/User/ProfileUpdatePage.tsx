@@ -39,7 +39,7 @@ interface Form {
     surname: string;
 }
 
-export const ProfileUpdate = () => {
+export const ProfileUpdatePage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { user } = useSelector((state: RootState) => state.auth);

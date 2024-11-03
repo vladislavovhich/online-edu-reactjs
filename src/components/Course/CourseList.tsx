@@ -4,9 +4,11 @@ import { GetCourse } from "../../types/course.types";
 import { Course } from "./Course";
 import { thunkStatusType } from "../../store/store.types";
 import { WithPrealoader } from "../common/WithPreloader";
+import { User } from "../../types/auth.types";
 
 interface Props {
     courses: GetCourse[];
+    currentUser: User | null;
     currentUserId: number | undefined;
     authorizedUserId: number | undefined;
     loadCoursesFunc: () => void;
@@ -39,6 +41,7 @@ export const CourseList = (props: Props) => {
                             authorizedUserId={authorizedUserId}
                             key={index.toString()}
                             index={index}
+                            currentUser={props.currentUser}
                         />
                     ))}
                 {nextPage && (

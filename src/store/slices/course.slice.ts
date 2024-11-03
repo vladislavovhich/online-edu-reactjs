@@ -62,6 +62,14 @@ export const courseSlice = createSlice({
         setCourse(state, action: PayloadAction<GetCourse>) {
             state.course = action.payload;
         },
+        addCourse(state, action: PayloadAction<GetCourse>) {
+            state.courses.push(action.payload);
+        },
+        removeCourse(state, action: PayloadAction<GetCourse>) {
+            state.courses = state.courses.filter(
+                (course) => course.id != action.payload.id
+            );
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -112,4 +120,4 @@ export const courseSlice = createSlice({
     },
 });
 
-export const { setCourse } = courseSlice.actions;
+export const { setCourse, addCourse, removeCourse } = courseSlice.actions;

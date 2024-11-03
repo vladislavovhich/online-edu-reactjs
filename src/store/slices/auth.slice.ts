@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthApi } from "../../api/auth.api";
 import { SignIn, SignUp, User } from "../../types/auth.types";
 import { createAppAsyncThunk, GetThunkState, ThunkType } from "../store.types";
+import { GetCourse } from "../../types/course.types";
 
 interface Auth {
     signIn: ThunkType;
@@ -96,6 +97,23 @@ export const authSlice = createSlice({
         setUser(state, action: PayloadAction<User>) {
             state.user = action.payload;
         },
+
+        addCurrentUserCourse(state, action: PayloadAction<GetCourse>) {
+            if (!state.user) {
+                return;
+            }
+
+            state.user.courses.push(action.payload.id);
+        },
+        removeCurrentUserCourse(state, action: PayloadAction<GetCourse>) {
+            if (!state.user) {
+                return;
+            }
+
+            state.user.courses = state.user.courses.filter(
+                (id) => id != action.payload.id
+            );
+        },
     },
 
     extraReducers: (builder) => {
@@ -172,4 +190,6 @@ export const {
     setSignInError,
     setSignUpError,
     setUser,
+    addCurrentUserCourse,
+    removeCurrentUserCourse,
 } = authSlice.actions;

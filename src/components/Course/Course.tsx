@@ -1,19 +1,15 @@
-import {
-    faCalendarDays,
-    faPencil,
-    faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Card, CardContent, CardHeader } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { stringAvatar } from "../../helpers/color-avatar.helper";
 import { GetCourse } from "../../types/course.types";
+import { User } from "../../types/auth.types";
+import { CourseTopBar } from "./CourseTopBar";
+import { CourseInfo } from "./CourseInfo";
 
 interface Props extends GetCourse {
     currentUserId: number | undefined;
     authorizedUserId: number | undefined;
     index: number;
+    currentUser: User | null;
 }
 
 export const Course = (props: Props) => {
@@ -27,57 +23,20 @@ export const Course = (props: Props) => {
         <div
             className={`d-flex flex-column border px-4 py-4 mt-3 border-rounded`}
         >
-            <div className="d-flex flex-row justify-content-between align-items-center">
-                <div className="d-flex flex-row">
-                    <Avatar
-                        {...stringAvatar(
-                            `${mentor.name} ${mentor.surname}`,
-                            42,
-                            42
-                        )}
-                    />
-                    <div className="text-darker h5 mt-2 ms-1">{`${mentor.name} ${mentor.surname}`}</div>
-                </div>
-
-                {canEditCourses && (
-                    <div className="d-flex flex-row">
-                        <Link
-                            to={`/courses/${props.id}/update`}
-                            className="mb-1 d-flex flex-row btn-darker"
-                        >
-                            <div className="text-white">Редактировать</div>
-                            <FontAwesomeIcon
-                                icon={faPencil}
-                                className="mt-1 ms-1 text-white"
-                            />
-                        </Link>
-                        <Link
-                            to={`/courses/${props.id}/delete`}
-                            className="mb-1 ms-2 d-flex flex-row btn-darker"
-                        >
-                            <div className="text-white">Удалить</div>
-                            <FontAwesomeIcon
-                                icon={faTrash}
-                                className="mt-1 ms-1 text-white"
-                            />
-                        </Link>
-                    </div>
-                )}
-            </div>
+            <CourseTopBar
+                mentor={mentor}
+                canEditCourses={canEditCourses}
+                courseId={props.id}
+                currentUser={props.currentUser}
+            />
 
             <hr className="my-2" />
 
-            <div className="d-flex flex-row justify-content-between align-items-center">
-                <div className="h4 text-darker text-break">{props.name}</div>
-            </div>
-
-            <hr className="my-2" />
-
-            <div className="d-flex flex-column">
-                <div className="text-darker font-bolder text-break">
-                    {props.description}
-                </div>
-            </div>
+            <CourseInfo
+                name={props.name}
+                description={props.description}
+                extraClass="justify-content-between"
+            />
 
             <hr className="my-2" />
 

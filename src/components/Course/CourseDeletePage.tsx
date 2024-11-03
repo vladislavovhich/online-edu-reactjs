@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
+    deleteCourse,
+    restoreDeleteThunk,
     restoreUpdateThunk,
     updateCourse,
 } from "../../store/slices/course-edit.slice";
@@ -10,16 +12,13 @@ import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { getCourse, setCourse } from "../../store/slices/course.slice";
 
-export const CourseUpdate = () => {
+export const CourseDeletePage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const params = useParams<{ courseId: string }>();
-    const updateCourseThunk = useSelector(
-        (state: RootState) => state.courseEdit.update
+    const deleteCourseThunk = useSelector(
+        (state: RootState) => state.courseEdit.delete
     );
     const { courses, course } = useSelector((state: RootState) => state.course);
-    const { name, description } = useSelector(
-        (state: RootState) => state.courseEdit
-    );
     const courseId = params.courseId ? parseInt(params.courseId) : null;
 
     useEffect(() => {
@@ -42,12 +41,12 @@ export const CourseUpdate = () => {
     return (
         <CourseEdit
             navigateTo={"/profile/courses"}
-            type={"update"}
-            thunk={updateCourseThunk}
-            thunkAction={() => updateCourse({ name, description, courseId })}
-            restoreThunk={restoreUpdateThunk}
-            text={"Изменение курса"}
-            buttonText={"Изменить"}
+            type={"delete"}
+            thunk={deleteCourseThunk}
+            thunkAction={() => deleteCourse(courseId)}
+            restoreThunk={restoreDeleteThunk}
+            text={"Удаление курса"}
+            buttonText={"Удалить"}
             course={course}
         />
     );
