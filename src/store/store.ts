@@ -6,9 +6,11 @@ import { userProfileSlice } from "./slices/user-profile.slice";
 import { courseAllSlice } from "./slices/course-all.slice";
 import { courseFullSlice } from "./slices/course-full.slice";
 import { lectureEditSlice } from "./slices/lecture-edit.slice";
+import { userSlice } from "./slices/user.slice";
 
 const store = configureStore({
     reducer: {
+        user: userSlice.reducer,
         auth: authSlice.reducer,
         courseEdit: courseEditSlice.reducer,
         course: courseSlice.reducer,

@@ -23,3 +23,7 @@ export interface GetCourse {
 export interface CoursePagination extends Pagination {
     add?: boolean;
 }
+
+export interface LectureUsersPagination extends Pagination {
+    courseId: number;
+}

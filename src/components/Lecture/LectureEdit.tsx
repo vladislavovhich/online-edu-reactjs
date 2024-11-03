@@ -64,7 +64,6 @@ export const LectureEdit = (props: Props) => {
     const params = useParams<{ courseId: string }>();
     const courseId = params.courseId ? parseInt(params.courseId) : null;
 
-    console.log(name, description);
     const {
         register,
         handleSubmit,
@@ -72,6 +71,7 @@ export const LectureEdit = (props: Props) => {
         reset,
         clearErrors,
         setValue,
+        getValues,
     } = useForm<Form>({
         resolver: yupResolver(FormSchema),
         defaultValues: { name, description, subject, date: new Date(date) },
@@ -89,13 +89,21 @@ export const LectureEdit = (props: Props) => {
         return null;
     }
 
-    const formOnSubmit = (data: Form) => {
-        dispatch(thunkAction());
+    const submitAction = () => {
+        if (type == "delete") {
+            return () => {
+                dispatch(thunkAction());
+            };
+        } else {
+            return handleSubmit((data: Form) => {
+                dispatch(thunkAction());
+            });
+        }
     };
 
     return (
         <div>
-            <form onSubmit={handleSubmit(formOnSubmit)}>
+            <form onSubmit={submitAction()}>
                 <div className="row d-flex flex-column">
                     <h3 className="h3 text-darker">{text}</h3>
 
@@ -209,6 +217,7 @@ export const LectureEdit = (props: Props) => {
                             />
                         </>
                     )}
+
                     <WithPrealoader status={thunk.status}>
                         <input
                             type="submit"

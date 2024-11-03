@@ -9,7 +9,7 @@ export interface Lecture {
     createdAt: string;
 }
 
-export interface LectureUpdate extends Lecture {
+export interface LectureUpdate extends LectureCreate {
     id: number;
 }
 

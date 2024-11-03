@@ -3,8 +3,13 @@ import { ProtectedRoute } from "../components/common/ProtectedRoute";
 import { ProfilePage } from "../components/User/ProfilePage";
 import { ProfileCoursesPage } from "../components/User/ProfileCoursesPage";
 import { ProfileUpdatePage } from "../components/User/ProfileUpdatePage";
+import { UsersPage } from "../components/User/UsersPage";
 
 export const profileRoutes: RouteObject[] = [
+    {
+        path: "/users",
+        element: <UsersPage />,
+    },
     {
         path: "/profile/:userId",
         element: <ProfilePage />,

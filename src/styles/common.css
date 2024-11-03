@@ -14,6 +14,11 @@
     background-color: #48cae4;
 }
 
+.badge-c {
+    width: 65px;
+    height: 20px;
+}
+
 .text-lighter {
     color: #48cae4;
 }

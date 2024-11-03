@@ -152,12 +152,15 @@ export const lectureEditSlice = createSlice({
 
             .addCase(getLecture.pending, (state, action) => {
                 state.getLecture.status = "pending";
-                state.lecture = action.payload;
             })
             .addCase(getLecture.fulfilled, (state, action) => {
                 state.getLecture.status = "succeeded";
 
                 state.lecture = action.payload;
+                state.name = state.lecture.name;
+                state.subject = state.lecture.subject;
+                state.date = +new Date(state.lecture.date);
+                state.description = state.lecture.description;
             })
             .addCase(getLecture.rejected, (state, action) => {
                 state.getLecture.status = "rejected";

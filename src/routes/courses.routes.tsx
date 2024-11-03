@@ -10,6 +10,7 @@ import { CourseLecturesPage } from "../components/Course/CourseLecturesPage";
 import { LectureCreatePage } from "../components/Lecture/LectureCreatePage";
 import { LectureUpdatePage } from "../components/Lecture/LectureUpdatePage";
 import { LectureDeletePage } from "../components/Lecture/LectureDeletePage";
+import { CourseUsersPage } from "../components/Course/CourseUsersPage";
 
 export const courseRoutes: RouteObject[] = [
     {
@@ -35,6 +36,10 @@ export const courseRoutes: RouteObject[] = [
             {
                 path: "/courses/:courseId/lectures",
                 element: <CourseLecturesPage />,
+            },
+            {
+                path: "/courses/:courseId/students",
+                element: <CourseUsersPage />,
             },
         ],
     },
