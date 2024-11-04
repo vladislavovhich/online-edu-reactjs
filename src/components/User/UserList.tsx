@@ -4,6 +4,8 @@ import { loadUsers } from "../../store/slices/user.slice";
 import { User } from "./User";
 import { thunkStatusType, ThunkType } from "../../store/store.types";
 import { WithPrealoader } from "../common/WithPreloader";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 interface Props {
     users: UserType[];
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export const UserList = (props: Props) => {
+    const { user } = useSelector((state: RootState) => state.auth);
     const onClickLoadUsers = (e: React.MouseEvent<HTMLElement>) =>
         props.loadUsers();
 
@@ -20,7 +23,11 @@ export const UserList = (props: Props) => {
         <div className="d-flex flex-column">
             {props.users.map((user, index) => (
                 <div className="mt-3">
-                    <User {...user} key={index.toString()} />
+                    <User
+                        {...user}
+                        key={index.toString()}
+                        userAuthorized={user}
+                    />
                 </div>
             ))}
 

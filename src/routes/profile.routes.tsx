@@ -4,8 +4,14 @@ import { ProfilePage } from "../components/User/ProfilePage";
 import { ProfileCoursesPage } from "../components/User/ProfileCoursesPage";
 import { ProfileUpdatePage } from "../components/User/ProfileUpdatePage";
 import { UsersPage } from "../components/User/UsersPage";
+import { UserGroupsPage } from "../components/User/UserGroupsPage";
+import { GroupCreatePage } from "../components/Group/GroupCreatePage";
 
 export const profileRoutes: RouteObject[] = [
+    {
+        path: "/groups/create",
+        element: <GroupCreatePage />,
+    },
     {
         path: "/users",
         element: <UsersPage />,
@@ -35,6 +41,10 @@ export const profileRoutes: RouteObject[] = [
             {
                 element: <ProfileUpdatePage />,
                 path: "/profile/update",
+            },
+            {
+                element: <UserGroupsPage />,
+                path: "/profile/groups",
             },
         ],
     },

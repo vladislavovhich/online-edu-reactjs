@@ -7,6 +7,9 @@ import { courseAllSlice } from "./slices/course-all.slice";
 import { courseFullSlice } from "./slices/course-full.slice";
 import { lectureEditSlice } from "./slices/lecture-edit.slice";
 import { userSlice } from "./slices/user.slice";
+import { messageEditSlice } from "./slices/message-edit.slice";
+import { groupEditSlice } from "./slices/group-edit.slice";
+import { groupSlice } from "./slices/group.slice";
 
 const store = configureStore({
     reducer: {
@@ -18,6 +21,9 @@ const store = configureStore({
         userProfile: userProfileSlice.reducer,
         courseFull: courseFullSlice.reducer,
         lectureEdit: lectureEditSlice.reducer,
+        messageEdit: messageEditSlice.reducer,
+        groupEdit: groupEditSlice.reducer,
+        group: groupSlice.reducer,
     },
 });
 

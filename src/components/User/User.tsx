@@ -4,7 +4,9 @@ import { Avatar } from "@mui/material";
 import { stringAvatar } from "../../helpers/color-avatar.helper";
 import { Link } from "react-router-dom";
 
-interface Props extends UserType {}
+interface Props extends UserType {
+    userAuthorized: UserType | null;
+}
 
 export const User = (props: Props) => {
     const bgColor = props.role == "MENTOR" ? "bg-success" : "bg-primary";
@@ -17,7 +19,13 @@ export const User = (props: Props) => {
             />
 
             <Link
-                to={`/profile/${props.id}`}
+                to={
+                    !props.userAuthorized ||
+                    (props.userAuthorized &&
+                        props.userAuthorized.id != props.id)
+                        ? `/profile/${props.id}`
+                        : `/profile`
+                }
                 className="text-darker link h4 mx-2"
             >
                 {`${props.name} ${props.surname}`}

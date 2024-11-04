@@ -30,8 +30,8 @@ export const ProfileNavBar = (props: Props) => {
             {props.currentUser && props.currentUser.id == props.user.id && (
                 <>
                     <IconNavLink
-                        text="Сообщения"
-                        url="/messages"
+                        text="Группы"
+                        url="/profile/groups"
                         icon={faComments}
                     />
 
