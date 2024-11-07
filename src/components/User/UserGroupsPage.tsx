@@ -33,7 +33,7 @@ export const UserGroupsPage = () => {
         }
 
         dispatch(getGroups({ page: 1, pageSize, userId: user.id }));
-    }, [user]);
+    }, [dispatch, pageSize, user]);
 
     return (
         <div className="d-flex flex-column row">
@@ -51,6 +51,7 @@ export const UserGroupsPage = () => {
                         groups={groups}
                         loadGroupsFunc={loadGroupsFunc}
                         currentUser={user}
+                        loadGroupsState={loadGroupsThunk.status}
                     />
                 </WithPrealoader>
             </div>

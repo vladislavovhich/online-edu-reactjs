@@ -1,4 +1,5 @@
 import { User } from "./auth.types";
+import { Pagination } from "./common.types";
 
 export interface Message {
     id: number;
@@ -14,4 +15,8 @@ export interface CreateMessage {
 
 export interface UpdateMessage extends CreateMessage {
     id: number;
+}
+
+export interface MessagePagination extends Pagination {
+    groupId: number;
 }

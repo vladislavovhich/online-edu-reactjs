@@ -16,7 +16,7 @@ interface Props {
 
 export const ProfileNavBar = (props: Props) => {
     return (
-        <div className="d-flex flex-row justify-content-between py-3">
+        <div className="d-flex flex-row justify-content-center py-3">
             <IconNavLink
                 text="Курсы"
                 url={
@@ -29,11 +29,13 @@ export const ProfileNavBar = (props: Props) => {
 
             {props.currentUser && props.currentUser.id == props.user.id && (
                 <>
-                    <IconNavLink
-                        text="Группы"
-                        url="/profile/groups"
-                        icon={faComments}
-                    />
+                    <div className="mx-4">
+                        <IconNavLink
+                            text="Группы"
+                            url="/profile/groups"
+                            icon={faComments}
+                        />
+                    </div>
 
                     <IconNavLink
                         text="Настройки"

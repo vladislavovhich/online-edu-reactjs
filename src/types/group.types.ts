@@ -23,3 +23,8 @@ export interface UpdateGroup extends CreateGroup {
 export interface GroupPagination extends Pagination {
     userId: number;
 }
+
+export interface MemberGroupOp {
+    groupId: number;
+    userId: number;
+}

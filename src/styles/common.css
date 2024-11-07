@@ -30,6 +30,9 @@ body {
     background: rgb(255, 254, 254);
 }
 
+.user-modal {
+    min-width: 80vw;
+}
 .link {
     text-decoration: none;
     transition: all 1.5;
@@ -44,6 +47,9 @@ body {
     color: #2a7be6;
 }
 
+.btn {
+    height: 40px;
+}
 .btn-darker {
     background-color: #48cae4;
     transition: all 0.5s;
@@ -67,4 +73,9 @@ body {
 
 .btn-darker:hover {
     background-color: #318c9f;
+}
+
+.bordered {
+    border-radius: 15px;
+    background-color: rgb(255, 250, 250);
 }

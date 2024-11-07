@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GroupApi } from "../../api/group.api";
-import { Group, GroupPagination } from "../../types/group.types";
+import { Group, GroupPagination, MemberGroupOp } from "../../types/group.types";
 import { createAppAsyncThunk, GetThunkState, ThunkType } from "../store.types";
 
 interface State {
@@ -11,6 +11,8 @@ interface State {
     prevPage: number | undefined;
     getGroups: ThunkType;
     loadGroups: ThunkType;
+    addMember: ThunkType;
+    removeMember: ThunkType;
 }
 
 const state: State = {
@@ -21,7 +23,23 @@ const state: State = {
     prevPage: undefined,
     getGroups: GetThunkState(),
     loadGroups: GetThunkState(),
+    addMember: GetThunkState(),
+    removeMember: GetThunkState(),
 };
+
+export const addMember = createAppAsyncThunk(
+    "group/add-member-thunk",
+    async (data: MemberGroupOp) => {
+        await GroupApi.addMember(data);
+    }
+);
+
+export const removeMember = createAppAsyncThunk(
+    "group/remove-member-thunk",
+    async (data: MemberGroupOp) => {
+        await GroupApi.removeMember(data);
+    }
+);
 
 export const getGroups = createAppAsyncThunk(
     "group/get-groups-thunk",
@@ -44,9 +62,36 @@ export const loadGroups = createAppAsyncThunk(
 export const groupSlice = createSlice({
     name: "group",
     initialState: state,
-    reducers: {},
+    reducers: {
+        restoreAddMemberThunk(state) {
+            state.addMember.status = "idle";
+        },
+    },
     extraReducers: (builder) => {
         builder
+            .addCase(addMember.pending, (state, action) => {
+                state.addMember.status = "pending";
+            })
+            .addCase(addMember.fulfilled, (state, action) => {
+                state.addMember.status = "succeeded";
+            })
+            .addCase(addMember.rejected, (state, action) => {
+                state.addMember.status = "rejected";
+                state.addMember.error = action.error.message ?? "Unknown Error";
+            })
+
+            .addCase(removeMember.pending, (state, action) => {
+                state.removeMember.status = "pending";
+            })
+            .addCase(removeMember.fulfilled, (state, action) => {
+                state.removeMember.status = "succeeded";
+            })
+            .addCase(removeMember.rejected, (state, action) => {
+                state.removeMember.status = "rejected";
+                state.removeMember.error =
+                    action.error.message ?? "Unknown Error";
+            })
+
             .addCase(getGroups.pending, (state, action) => {
                 state.getGroups.status = "pending";
             })
@@ -79,3 +124,5 @@ export const groupSlice = createSlice({
             });
     },
 });
+
+export const { restoreAddMemberThunk } = groupSlice.actions;

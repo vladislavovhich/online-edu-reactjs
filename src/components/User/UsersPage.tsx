@@ -14,7 +14,7 @@ export const UsersPage = () => {
         pageSize,
         nextPage,
     } = useSelector((state: RootState) => state.user);
-    const loadCoursesFunc = () => {
+    const loadUsersFunc = () => {
         if (!nextPage) {
             return;
         }
@@ -40,7 +40,7 @@ export const UsersPage = () => {
                 <UserList
                     users={users}
                     hasNextPage={!!nextPage}
-                    loadUsers={loadCoursesFunc}
+                    loadUsers={loadUsersFunc}
                     status={loadUsersThunk.status}
                 />
             </>

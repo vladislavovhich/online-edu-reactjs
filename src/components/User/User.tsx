@@ -6,28 +6,29 @@ import { Link } from "react-router-dom";
 
 interface Props extends UserType {
     userAuthorized: UserType | null;
+    avatarSize?: number | undefined;
 }
 
 export const User = (props: Props) => {
     const bgColor = props.role == "MENTOR" ? "bg-success" : "bg-primary";
     const text = props.role == "MENTOR" ? "Учитель" : "Студент";
+    const avatarSize = props.avatarSize ? props.avatarSize : 56;
+    const url =
+        props.userAuthorized && props.userAuthorized.id == props.id
+            ? "/profile"
+            : `/profile/${props.id}`;
 
     return (
         <div className="d-flex flex-row align-items-center">
             <Avatar
-                {...stringAvatar(`${props.name} ${props.surname}`, 56, 56)}
+                {...stringAvatar(
+                    `${props.name} ${props.surname}`,
+                    avatarSize,
+                    avatarSize
+                )}
             />
 
-            <Link
-                to={
-                    !props.userAuthorized ||
-                    (props.userAuthorized &&
-                        props.userAuthorized.id != props.id)
-                        ? `/profile/${props.id}`
-                        : `/profile`
-                }
-                className="text-darker link h4 mx-2"
-            >
+            <Link to={url} className="text-darker link h4 mx-2">
                 {`${props.name} ${props.surname}`}
             </Link>
             <div className={`${bgColor} text-white badge badge-c`}>{text}</div>

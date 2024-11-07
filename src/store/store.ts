@@ -10,6 +10,7 @@ import { userSlice } from "./slices/user.slice";
 import { messageEditSlice } from "./slices/message-edit.slice";
 import { groupEditSlice } from "./slices/group-edit.slice";
 import { groupSlice } from "./slices/group.slice";
+import { messageAllSlice } from "./slices/message-all.slice";
 
 const store = configureStore({
     reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
         messageEdit: messageEditSlice.reducer,
         groupEdit: groupEditSlice.reducer,
         group: groupSlice.reducer,
+        messageAll: messageAllSlice.reducer,
     },
 });
 

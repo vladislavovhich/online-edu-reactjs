@@ -86,6 +86,8 @@ export const groupEditSlice = createSlice({
                 state.findOne.status = "succeeded";
 
                 state.group = action.payload;
+                state.name = action.payload.name;
+                state.description = action.payload.description;
             })
             .addCase(findOneGroup.rejected, (state, action) => {
                 state.findOne.status = "rejected";

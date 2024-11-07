@@ -4,6 +4,7 @@ import {
     CreateGroup,
     Group,
     GroupPagination,
+    MemberGroupOp,
     UpdateGroup,
 } from "../types/group.types";
 import { Api } from "./api";
@@ -95,6 +96,30 @@ export const GroupApi = {
     async delete(groupId: number) {
         try {
             await Api.delete(`/groups/${groupId}`);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
+    async addMember(data: MemberGroupOp) {
+        try {
+            await Api.put(`/groups/${data.groupId}/members/${data.userId}`);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
+    async removeMember(data: MemberGroupOp) {
+        try {
+            await Api.delete(`/groups/${data.groupId}/members/${data.userId}`);
         } catch (e: unknown) {
             if (e instanceof AxiosError && e.response) {
                 throw new Error(e.response.data);

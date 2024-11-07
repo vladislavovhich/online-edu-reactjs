@@ -65,19 +65,13 @@ export const GroupEdit = (props: Props) => {
     });
 
     const submitAction = () => {
-        if (type == "delete") {
-            return () => {
-                dispatch(thunkAction());
-            };
-        } else {
-            return handleSubmit((data: Form) => {
-                dispatch(thunkAction());
-            });
-        }
+        return handleSubmit((data: Form) => {
+            dispatch(thunkAction());
+        });
     };
 
     useEffect(() => {
-        if (thunk.status == "succeeded") {
+        if (thunk.status === "succeeded") {
             dispatch(restoreThunk());
 
             navigate(navigateTo);
@@ -86,7 +80,7 @@ export const GroupEdit = (props: Props) => {
 
     return (
         <div>
-            <form onSubmit={submitAction}>
+            <form onSubmit={submitAction()}>
                 <div className="row d-flex flex-column">
                     <h3 className=" text-darker col-6">{text}</h3>
 

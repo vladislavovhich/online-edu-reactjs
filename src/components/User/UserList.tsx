@@ -15,19 +15,17 @@ interface Props {
 }
 
 export const UserList = (props: Props) => {
-    const { user } = useSelector((state: RootState) => state.auth);
+    const { user: userAuthorized } = useSelector(
+        (state: RootState) => state.auth
+    );
     const onClickLoadUsers = (e: React.MouseEvent<HTMLElement>) =>
         props.loadUsers();
 
     return (
         <div className="d-flex flex-column">
             {props.users.map((user, index) => (
-                <div className="mt-3">
-                    <User
-                        {...user}
-                        key={index.toString()}
-                        userAuthorized={user}
-                    />
+                <div className="mt-3" key={index.toString()}>
+                    <User {...user} userAuthorized={userAuthorized} />
                 </div>
             ))}
 
