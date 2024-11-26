@@ -8,6 +8,10 @@ import { Header } from "./Header";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { WithPrealoader } from "./common/WithPreloader";
+import { WsTest } from "./WsTest";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 export const App = () => {
     const dispatch = useDispatch<AppDispatch>();

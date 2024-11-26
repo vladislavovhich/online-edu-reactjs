@@ -15,6 +15,8 @@ interface State {
     createLecture: ThunkType;
     deleteLecture: ThunkType;
     updateLecture: ThunkType;
+    onlineLecture: ThunkType;
+    offlineLecture: ThunkType;
     getLecture: ThunkType;
     lecture: Lecture | null;
 }
@@ -29,6 +31,8 @@ const state: State = {
     updateLecture: GetThunkState(),
     deleteLecture: GetThunkState(),
     getLecture: GetThunkState(),
+    onlineLecture: GetThunkState(),
+    offlineLecture: GetThunkState(),
 };
 
 export const createLecture = createAppAsyncThunk(
@@ -54,6 +58,24 @@ export const deleteLecture = createAppAsyncThunk(
     async (lectureId: number) => {
         console.log("sd");
         await LectureApi.delete(lectureId);
+
+        return;
+    }
+);
+
+export const onlineLecture = createAppAsyncThunk(
+    "lecture-edit/online-lecture-thunk",
+    async (lectureId: number) => {
+        await LectureApi.online(lectureId);
+
+        return;
+    }
+);
+
+export const offlineLecture = createAppAsyncThunk(
+    "lecture-edit/offline-lecture-thunk",
+    async (lectureId: number) => {
+        await LectureApi.offline(lectureId);
 
         return;
     }
@@ -110,6 +132,34 @@ export const lectureEditSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(onlineLecture.pending, (state, action) => {
+                state.onlineLecture.status = "pending";
+            })
+            .addCase(onlineLecture.fulfilled, (state, action) => {
+                state.onlineLecture.status = "succeeded";
+
+                console.log(action.payload);
+            })
+            .addCase(onlineLecture.rejected, (state, action) => {
+                state.onlineLecture.status = "rejected";
+                state.onlineLecture.error =
+                    action.error.message ?? "Unknown Error";
+            })
+
+            .addCase(offlineLecture.pending, (state, action) => {
+                state.offlineLecture.status = "pending";
+            })
+            .addCase(offlineLecture.fulfilled, (state, action) => {
+                state.offlineLecture.status = "succeeded";
+
+                console.log(action.payload);
+            })
+            .addCase(offlineLecture.rejected, (state, action) => {
+                state.offlineLecture.status = "rejected";
+                state.offlineLecture.error =
+                    action.error.message ?? "Unknown Error";
+            })
+
             .addCase(createLecture.pending, (state, action) => {
                 state.createLecture.status = "pending";
             })

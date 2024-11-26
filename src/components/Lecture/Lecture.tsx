@@ -3,6 +3,12 @@ import { User } from "../../types/auth.types";
 import { GetCourse } from "../../types/course.types";
 import { Lecture as LectureType } from "../../types/lecture.types";
 import { IconTextLink } from "../common/IconTextLink";
+import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { onlineLecture } from "../../store/slices/lecture-edit.slice";
+import { WithPrealoader } from "../common/WithPreloader";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 interface Props extends LectureType {
     course: GetCourse;
@@ -10,6 +16,14 @@ interface Props extends LectureType {
 }
 
 export const Lecture = (props: Props) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const onClickSetOnline = () => {
+        dispatch(onlineLecture(props.id));
+    };
+    const { onlineLecture: onlineLectureThunk } = useSelector(
+        (state: RootState) => state.lectureEdit
+    );
+
     return (
         <div className="d-flex flex-column border px-4 py-4 mt-3 border-rounded">
             <div className="d-flex flex-row justify-content-between align-items-center">
@@ -29,7 +43,30 @@ export const Lecture = (props: Props) => {
                             icon={faTrash}
                             extraClass="ms-2"
                         />
+
+                        <WithPrealoader status={onlineLectureThunk.status}>
+                            <>
+                                {!props.isOnline && (
+                                    <input
+                                        type="button"
+                                        className="btn btn-primary"
+                                        value="Онлайн"
+                                        onClick={onClickSetOnline}
+                                    />
+                                )}
+                            </>
+                        </WithPrealoader>
                     </div>
+                )}
+
+                {props.user && props.isOnline && (
+                    <Link
+                        to="/lecture/online"
+                        className="btn btn-primary"
+                        onClick={onClickSetOnline}
+                    >
+                        Войти
+                    </Link>
                 )}
             </div>
 

@@ -11,8 +11,13 @@ import { LectureCreatePage } from "../components/Lecture/LectureCreatePage";
 import { LectureUpdatePage } from "../components/Lecture/LectureUpdatePage";
 import { LectureDeletePage } from "../components/Lecture/LectureDeletePage";
 import { CourseUsersPage } from "../components/Course/CourseUsersPage";
+import { LectureOnline } from "../components/Lecture/LectureOnline";
 
 export const courseRoutes: RouteObject[] = [
+    {
+        path: "/lecture/online",
+        element: <LectureOnline />,
+    },
     {
         path: "/courses/:courseId/add-lecture",
         element: <LectureCreatePage />,

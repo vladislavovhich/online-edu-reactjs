@@ -9,6 +9,7 @@ import store from "./store/store";
 import { routes } from "./routes/routes";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { WebSocketProvider } from "./components/common/WebSocketProvider";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -18,11 +19,13 @@ export const router = createBrowserRouter(routes);
 
 root.render(
     <React.StrictMode>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Provider store={store}>
-                <RouterProvider router={router} />
-            </Provider>
-        </LocalizationProvider>
+        <WebSocketProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Provider store={store}>
+                    <RouterProvider router={router} />
+                </Provider>
+            </LocalizationProvider>
+        </WebSocketProvider>
     </React.StrictMode>
 );
 

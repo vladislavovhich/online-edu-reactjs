@@ -62,6 +62,30 @@ export const LectureApi = {
         }
     },
 
+    async online(lectureId: number) {
+        try {
+            await Api.put(`/lectures/${lectureId}/online`);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
+    async offline(lectureId: number) {
+        try {
+            await Api.put(`/lectures/${lectureId}/offline`);
+        } catch (e: unknown) {
+            if (e instanceof AxiosError && e.response) {
+                throw new Error(e.response.data);
+            }
+
+            throw e;
+        }
+    },
+
     async getLectures(courseId: number) {
         try {
             const response = await Api.get<{ lectures: Lecture[] }>(

@@ -7,6 +7,7 @@ export interface Lecture {
     isOver: boolean;
     fileUrl: string;
     createdAt: string;
+    isOnline: boolean;
 }
 
 export interface LectureUpdate extends LectureCreate {
