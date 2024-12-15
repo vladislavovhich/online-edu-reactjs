@@ -20,3 +20,8 @@ export interface SignUp {
     surname: string;
     role: string;
 }
+
+export interface LectureMessage {
+    text: string;
+    user: User;
+}

@@ -14,6 +14,16 @@
     background-color: #48cae4;
 }
 
+.lecture-messages {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.students {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
 .badge-c {
     width: 65px;
     height: 20px;

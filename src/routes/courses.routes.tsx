@@ -15,7 +15,7 @@ import { LectureOnline } from "../components/Lecture/LectureOnline";
 
 export const courseRoutes: RouteObject[] = [
     {
-        path: "/lecture/online",
+        path: "/lecture/:lectureId/online",
         element: <LectureOnline />,
     },
     {

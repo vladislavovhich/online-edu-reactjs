@@ -5,7 +5,10 @@ import { Lecture as LectureType } from "../../types/lecture.types";
 import { IconTextLink } from "../common/IconTextLink";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { onlineLecture } from "../../store/slices/lecture-edit.slice";
+import {
+    onlineLecture,
+    setLecture,
+} from "../../store/slices/lecture-edit.slice";
 import { WithPrealoader } from "../common/WithPreloader";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -19,6 +22,7 @@ export const Lecture = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>();
     const onClickSetOnline = () => {
         dispatch(onlineLecture(props.id));
+        dispatch(setLecture(props));
     };
     const { onlineLecture: onlineLectureThunk } = useSelector(
         (state: RootState) => state.lectureEdit
@@ -61,7 +65,7 @@ export const Lecture = (props: Props) => {
 
                 {props.user && props.isOnline && (
                     <Link
-                        to="/lecture/online"
+                        to={`/lecture/${props.id}/online`}
                         className="btn btn-primary"
                         onClick={onClickSetOnline}
                     >

@@ -1,9 +1,10 @@
 import axios from "axios";
+import { Constants } from "../constants/constants";
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const url = Constants.apiUrl;
 
 export const Api = axios.create({
-    baseURL: `https://${process.env.REACT_APP_API_HOST}`,
+    baseURL: url,
     withCredentials: true,
     headers: {
         "Content-Type": "application/json",
